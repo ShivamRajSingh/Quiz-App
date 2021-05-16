@@ -17,6 +17,20 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  final questions = const [
+    {
+      'questionText': 'What\'s your favourite color ? ',
+      'answers': ['Red', 'Green', 'Blue', 'Yellow'],
+    },
+    {
+      'questionText': 'What\'s your favourite food ? ',
+      'answers': ['Chinese', 'Italian', 'Indian', 'French'],
+    },
+    {
+      'questionText': 'What\'s your favourite animal? ',
+      'answers': ['Dog', 'Cat', 'Elephant', 'Lion'],
+    },
+  ];
   var _questionIdx = 0;
 
   void _answerQuestion() {
@@ -28,35 +42,26 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    const questions = [
-      {
-        'questionText': 'What\'s your favourite color ? ',
-        'answers': ['Red', 'Green', 'Blue', 'Yellow'],
-      },
-      {
-        'questionText': 'What\'s your favourite food ? ',
-        'answers': ['Chinese', 'Italian', 'Indian', 'French'],
-      },
-      {
-        'questionText': 'What\'s your favourite animal? ',
-        'answers': ['Dog', 'Cat', 'Elephant', 'Lion'],
-      },
-    ];
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
           title: Text('My First App'),
         ),
-        body: Column(
-          children: [
-            Question(
-              questions[_questionIdx]['questionText'],
-            ),
-            ...(questions[_questionIdx]['answers'] as List<String>).map((answer) {
-              return Answer(_answerQuestion, answer);
-            }).toList(),
-          ],
-        ),
+        body: (_questionIdx < questions.length)
+            ? Column(
+                children: [
+                  Question(
+                    questions[_questionIdx]['questionText'],
+                  ),
+                  ...(questions[_questionIdx]['answers'] as List<String>)
+                      .map((answer) {
+                    return Answer(_answerQuestion, answer);
+                  }).toList(),
+                ],
+              )
+            : Center(
+                child: Text('Finish!!'),
+              ),
       ),
     );
   }
